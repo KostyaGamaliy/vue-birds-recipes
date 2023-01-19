@@ -40,18 +40,17 @@
 </template>
 
 <script>
-//import useLocalStorage from '@/utils/LocalStorageUtil.js'
+import { setData } from '@/utils/LocalStorageUtil.js';
+import axios from '@/utils/axios.js';
 
 export default {
-  
-
   name: "CreateBird",
   data() {
     return {
       imageUrl: "",
       birdName: "",
       birdDescription: "",
-      birdData: []
+      birdData: [],
     }
   },
   methods: {
@@ -59,24 +58,47 @@ export default {
       let regURL =
         /^(?:(?:https?|ftp|telnet):\/\/(?:[a-z0-9_-]{1,32}(?::[a-z0-9_-]{1,32})?@)?)?(?:(?:[a-z0-9-]{1,128}\.)+(?:com|net|org|mil|edu|arpa|ru|gov|biz|info|aero|inc|name|[a-z]{2})|(?!0)(?:(?!0[^.]|255)[0-9]{1,3}\.){3}(?!0|255)[0-9]{1,3})(?:\/[a-z0-9.,_@%&?+=~/-]*)?(?:#[^ '"&<>]*)?$/i
       
-      
-
-      const newBirdData = {
+      let newBirdData = {
         imageUrl: regURL.test(this.imageUrl) ? this.imageUrl : "https://img.icons8.com/ios/512/full-body-crow.png",
-        name: this.birdName,
-        description: this.birdDescription,
+        birdName: this.birdName,
+        birdDescription: this.birdDescription,
         recipesArr: []
       };
       
-      //useLocalStorage("details", this.birdData)
+      this.getRecipes({ tags: this.birdName.replace(" ", ",").toLowerCase() }, newBirdData)
+    },
 
-      this.birdData.push(newBirdData)
-      localStorage.setItem("details", JSON.stringify(this.birdData))
+    getData() {
+      let DataDet = localStorage.getItem("details")
 
-      this.imageUrl = ""
-      this.birdName = ""
-      this.birdDescription = ""
+      if (DataDet) {
+        this.birdData = JSON.parse(DataDet)
+      } else {
+        localStorage.setItem("details", JSON.stringify(this.birdData))
+      }
+    },
+
+    getRecipes(params, newBirdData) {
+      axios.get("/recipes/random", {
+        params: {
+          number: "20",
+          ...params
+        }
+      }).then(response => {
+        newBirdData.recipesArr = response.data.recipes
+
+        this.birdData.push(newBirdData)
+        setData("details", this.birdData)
+
+        this.imageUrl = ""
+        this.birdName = ""
+        this.birdDescription = ""
+      })
+
     }
+  },
+  mounted() {
+    this.getData()
   }
 }
 </script>

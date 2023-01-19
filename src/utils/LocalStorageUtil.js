@@ -1,19 +1,13 @@
-import { customRef } from "vue"
+export function getData(key, value) {
+	let dataDet = localStorage.getItem(key)
 
-export default function (key, defaultValue) {
-	return customRef((track, trigger) => ({
-		get: () => {
-			track()
-			const value = localStorage.getItem(key)
-			return value ? JSON.parse(value) : defaultValue
-		},
-		set: (value) => {
-			if (value === null) {
-				localStorage.removeItem(key)
-			} else {
-				localStorage.setItem(key, JSON.stringify(value))
-			}
-			trigger()
-		},
-	}))
+	if (dataDet) {
+		return (value = JSON.parse(dataDet))
+	} else {
+		setData(key, value)
+	}
+}
+
+export function setData(key, value) {
+	return localStorage.setItem(key, JSON.stringify(value))
 }

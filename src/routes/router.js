@@ -15,7 +15,7 @@ const routes = [
 		component: BirdsPage,
 	},
 	{
-		path: "/recipes",
+		path: "/birds/recipes",
 		name: "RecipesPage",
 		component: RecipesPage,
 	},
