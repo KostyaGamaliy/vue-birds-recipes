@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import { setData } from '@/utils/LocalStorageUtil.js'
 import axios from '@/utils/axios.js'
 import HeaderForm from '@/components/Header.vue'
 
@@ -111,7 +110,7 @@ export default {
 					newBirdData.recipesArr = response.data.recipes
 
 					this.birdData.push(newBirdData)
-					setData('details', this.birdData)
+					localStorage.setItem('details', JSON.stringify(this.birdData))
 
 					this.imageUrl = ''
 					this.birdName = ''

@@ -24,6 +24,7 @@
 					<div class="flex items-center justify-center">
 						<button
 							class="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 cursor-pointer"
+							@click="sortByStart"
 						>
 							Сортировка за алфавитом А-Я
 						</button>
@@ -32,6 +33,7 @@
 					<div class="flex items-center justify-center">
 						<button
 							class="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 cursor-pointer"
+							@click="sortByEnd"
 						>
 							Сортировка за алфавитом Я-А
 						</button>
@@ -44,6 +46,7 @@
 								type="checkbox"
 								value=""
 								class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+								v-model="isChacked"
 							/>
 							<label
 								for="default-checkbox"
@@ -73,8 +76,24 @@ export default {
 	data() {
 		return {
 			thisUrl: this.$route.fullPath,
-			birdsUrl: '/birds'
+			birdsUrl: '/birds',
+			isChacked: false
 		}
-	}
+	},
+	methods: {
+		sortByStart() {
+			this.$emit('emitSortByStart')
+		},
+
+		sortByEnd() {
+			this.$emit('emitSortByEnd')
+		}
+	},
+	watch: {
+		isChacked() {
+			this.$emit('emitIsCheck', this.isChacked)
+		}
+	},
+	emits: ['emitIsCheck', 'emitSortByStart', 'emitSortByEnd']
 }
 </script>
