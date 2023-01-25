@@ -12,12 +12,6 @@
 					:create-option="true"
 					:options="options"
 				/>
-				<button
-					class="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 cursor-pointer"
-					@click="getRecipe"
-				>
-					дать рецепты
-				</button>
 			</div>
 
 			<div class="flex flex-wrap justify-evenly flex-row" v-if="value">
@@ -94,7 +88,6 @@ export default {
 				})
 				.then((response) => {
 					this.randomRecipes = response.data.recipes
-					console.log(this.randomRecipes)
 				})
 		},
 
@@ -107,12 +100,20 @@ export default {
 					}
 				})
 				.then((response) => {
-					this.recipeData = response.data
+					this.recipeData = response.data.results
 				})
 		}
 	},
 	mounted() {
 		this.getRandomRecipes()
+	},
+	watch: {
+		value() {
+			console.log(this.value.length)
+			if (this.value === null || this.value.length === 0)
+				this.getRandomRecipes()
+			else this.getRecipe()
+		}
 	}
 }
 </script>

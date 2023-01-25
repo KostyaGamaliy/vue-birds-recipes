@@ -63,6 +63,7 @@
 
 				<div class="items-center justify-end flex md:flex-1 lg:w-0">
 					<button
+						v-if="birdsUrl === thisUrl"
 						class="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 cursor-pointer"
 					>
 						<router-link to="/createBird"> Создать птицу</router-link>

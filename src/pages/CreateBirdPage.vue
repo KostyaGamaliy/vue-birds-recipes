@@ -77,6 +77,7 @@ export default {
 					{ tags: this.birdName.replace(' ', ',').toLowerCase() },
 					regURL
 				)
+				this.$router.push('/')
 			}
 		},
 

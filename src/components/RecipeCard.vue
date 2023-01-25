@@ -11,26 +11,28 @@
 			{{ recipesArr.title }}
 		</h5>
 
-		<div class="flex flex-row justify-between mt-3" v-if="!isSearchRecipe">
+		<template v-if="!isSearchRecipe">
 			<div
 				class="mb-3 font-normal text-gray-700 overflow-y-auto h-32"
 				v-html="recipesArr.instructions"
 			></div>
 
-			<router-link
-				:to="{ name: 'ChangeRecipePage', params: { recipeId } }"
-				class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-400"
-			>
-				Изменить
-			</router-link>
+			<div class="flex flex-row justify-between mt-3">
+				<router-link
+					:to="{ name: 'ChangeRecipePage', params: { recipeId } }"
+					class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-400"
+				>
+					Изменить
+				</router-link>
 
-			<button
-				class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-rose-700 rounded-lg hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-rose-400"
-				@click="deleteRecipeData(recipeId)"
-			>
-				Удалить
-			</button>
-		</div>
+				<button
+					class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-rose-700 rounded-lg hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-rose-400"
+					@click="deleteRecipeData(recipeId)"
+				>
+					Удалить
+				</button>
+			</div>
+		</template>
 
 		<div class="flex flex-row justify-between mt-3" v-else>
 			<router-link
