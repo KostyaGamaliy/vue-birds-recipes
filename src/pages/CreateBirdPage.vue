@@ -72,18 +72,19 @@ export default {
 				alert('Имя должно быть от 3 символов')
 			} else if (this.birdDescription.length < 10) {
 				alert('Описание должно быть от 10 символов')
-			} else
+			} else {
 				this.getRecipes(
 					{ tags: this.birdName.replace(' ', ',').toLowerCase() },
 					regURL
 				)
+			}
 		},
 
 		getData() {
-			let DataDet = localStorage.getItem('details')
+			let dataDet = localStorage.getItem('details')
 
-			if (DataDet) {
-				this.birdData = JSON.parse(DataDet)
+			if (dataDet) {
+				this.birdData = JSON.parse(dataDet)
 			} else {
 				localStorage.setItem('details', JSON.stringify(this.birdData))
 			}

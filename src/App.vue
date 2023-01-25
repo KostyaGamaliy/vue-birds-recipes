@@ -10,3 +10,7 @@ export default {
 	components: {}
 }
 </script>
+
+<style>
+@import '../node_modules/@vueform/multiselect/themes/tailwind.css';
+</style>

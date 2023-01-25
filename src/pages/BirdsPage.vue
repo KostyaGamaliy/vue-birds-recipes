@@ -100,10 +100,10 @@ export default {
 		},
 
 		getData() {
-			let DataDet = localStorage.getItem('details')
+			let dataDet = localStorage.getItem('details')
 
-			if (DataDet) {
-				this.birdsCards = JSON.parse(DataDet)
+			if (dataDet) {
+				this.birdsCards = JSON.parse(dataDet)
 			} else {
 				localStorage.setItem('details', JSON.stringify(this.birdsCards))
 			}

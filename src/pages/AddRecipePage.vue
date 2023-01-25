@@ -91,10 +91,10 @@ export default {
 			}
 		},
 		getData() {
-			let DataDet = localStorage.getItem('details')
+			let dataDet = localStorage.getItem('details')
 
-			if (DataDet) {
-				this.birdsData = JSON.parse(DataDet)
+			if (dataDet) {
+				this.birdsData = JSON.parse(dataDet)
 			} else {
 				localStorage.setItem('details', JSON.stringify(this.recipesCards))
 			}

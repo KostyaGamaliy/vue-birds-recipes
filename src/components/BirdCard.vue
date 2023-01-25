@@ -6,16 +6,14 @@
 			alt=""
 		/>
 		<h5
-			class="my-2 text-2xl font-bold tracking-tight text-slate-700 hover:text-slate-900 text-ellipsis overflow-hidden"
+			class="my-2 text-2xl font-bold tracking-tight text-slate-700 hover:text-slate-900 text-ellipsis overflow-hidden truncate"
 		>
 			{{ birdCard.birdName }}
 		</h5>
 
-		<p
-			class="mb-3 font-normal text-gray-700 dark:text-gray-400 overflow-y-auto h-32"
-		>
+		<div class="mb-3 font-normal text-gray-700 overflow-y-auto h-32">
 			{{ birdCard.birdDescription }}
-		</p>
+		</div>
 
 		<router-link
 			:to="{ name: 'RecipesPage', params: { birdId } }"
@@ -74,9 +72,11 @@ export default {
 	},
 	methods: {
 		deleteBirdData(index) {
-			if (confirm('Вы точно хотите удалить?')) {
-				this.$emit('emitDeleteBird', index)
-			}
+			if (this.$store.state.isAuth) {
+				if (confirm('Вы точно хотите удалить?')) {
+					this.$emit('emitDeleteBird', index)
+				}
+			} else this.$router.push('/authorize')
 		}
 	},
 	emits: ['emitDeleteBird']

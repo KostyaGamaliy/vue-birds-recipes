@@ -43,11 +43,11 @@ export default {
 		},
 
 		getData() {
-			let DataDet = localStorage.getItem('details')
+			let dataDet = localStorage.getItem('details')
 
-			if (DataDet) {
-				this.recipesCards = JSON.parse(DataDet)[this.$route.params.birdId]
-				this.birdData = JSON.parse(DataDet)
+			if (dataDet) {
+				this.recipesCards = JSON.parse(dataDet)[this.$route.params.birdId]
+				this.birdData = JSON.parse(dataDet)
 			} else {
 				localStorage.setItem('details', JSON.stringify(this.recipesCards))
 			}
@@ -58,5 +58,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="scss" scoped></style>

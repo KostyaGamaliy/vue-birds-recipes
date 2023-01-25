@@ -94,7 +94,7 @@ export default {
 					]
 				this.allBirds = JSON.parse(dataDet)
 			} else {
-				localStorage.setItem('details', JSON.stringify(this.birdData))
+				localStorage.setItem('details', JSON.stringify(this.recipeData))
 			}
 		}
 	},

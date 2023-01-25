@@ -1,9 +1,11 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import './index.css'
-//import HeaderForm from "@/components/Header.vue"
 import router from './routes/router'
+//import { createPinia } from 'pinia'
+import store from '@/pinia/store'
 
+//const pinia = createPinia()
 const app = createApp(App)
-//app.component("HeaderForm", HeaderForm)
-app.use(router).mount('#app')
+
+app.use(router).use(store).mount('#app')
