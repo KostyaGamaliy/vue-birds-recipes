@@ -21,6 +21,10 @@
 <script>
 import RecipeCard from '@/components/RecipeCard'
 import HeaderForm from '@/components/Header.vue'
+import {
+	getDataFromLocalStorage,
+	saveDataToLocalStorage
+} from '@/utils/localStorageUtil'
 
 export default {
 	name: 'RecipesPage',
@@ -37,24 +41,12 @@ export default {
 	methods: {
 		handleRecipeDelete(index) {
 			this.birdData[this.$route.params.birdId].recipesArr.splice(index, 1)
-			localStorage.setItem('details', JSON.stringify(this.birdData))
-
-			this.getData()
-		},
-
-		getData() {
-			let dataDet = localStorage.getItem('details')
-
-			if (dataDet) {
-				this.recipesCards = JSON.parse(dataDet)[this.$route.params.birdId]
-				this.birdData = JSON.parse(dataDet)
-			} else {
-				localStorage.setItem('details', JSON.stringify(this.recipesCards))
-			}
+			saveDataToLocalStorage('details', this.birdData)
 		}
 	},
 	mounted() {
-		this.getData()
+		this.birdData = getDataFromLocalStorage('details')
+		this.recipesCards = this.birdData[this.$route.params.birdId]
 	}
 }
 </script>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const instance = axios.create({
+const instanceAxios = axios.create({
 	baseURL: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com',
 	timeout: 10000,
 	headers: {
@@ -9,4 +9,4 @@ const instance = axios.create({
 	}
 })
 
-export default instance
+export default instanceAxios

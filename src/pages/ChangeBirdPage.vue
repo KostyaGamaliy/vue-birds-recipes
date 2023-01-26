@@ -47,6 +47,10 @@
 
 <script>
 import HeaderForm from '@/components/Header.vue'
+import {
+	getDataFromLocalStorage,
+	saveDataToLocalStorage
+} from '@/utils/localStorageUtil'
 
 export default {
 	name: 'ChangeBirdPage',
@@ -75,25 +79,15 @@ export default {
 
 				this.allBirds[this.$route.params.birdId] = this.birdData
 
-				localStorage.setItem('details', JSON.stringify(this.allBirds))
+				saveDataToLocalStorage('details', this.allBirds)
 
 				this.$router.go(-1)
-			}
-		},
-
-		getData() {
-			let dataDet = localStorage.getItem('details')
-
-			if (dataDet) {
-				this.birdData = JSON.parse(dataDet)[this.$route.params.birdId]
-				this.allBirds = JSON.parse(dataDet)
-			} else {
-				localStorage.setItem('details', JSON.stringify(this.birdData))
 			}
 		}
 	},
 	mounted() {
-		this.getData()
+		this.allBirds = getDataFromLocalStorage('details')
+		this.birdData = this.allBirds[this.$route.params.birdId]
 	}
 }
 </script>

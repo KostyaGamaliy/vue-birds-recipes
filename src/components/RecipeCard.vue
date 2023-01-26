@@ -46,6 +46,9 @@
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/Auth'
+import { mapState } from 'pinia'
+
 export default {
 	name: 'CardForm',
 	props: {
@@ -53,9 +56,12 @@ export default {
 		recipesArr: Object,
 		isSearchRecipe: Boolean
 	},
+	computed: {
+		...mapState(useAuthStore, ['auth'])
+	},
 	methods: {
 		deleteRecipeData(index) {
-			if (this.$store.state.isAuth) {
+			if (this.auth) {
 				if (confirm('Вы точно хотите удалить?')) {
 					this.$emit('emitDeleteRecipe', index)
 				}

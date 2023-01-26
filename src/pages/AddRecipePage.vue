@@ -47,6 +47,10 @@
 
 <script>
 import HeaderForm from '@/components/Header.vue'
+import {
+	getDataFromLocalStorage,
+	saveDataToLocalStorage
+} from '@/utils/localStorageUtil'
 
 export default {
 	name: 'AddRecipePage',
@@ -81,7 +85,7 @@ export default {
 					instructions: this.instructions
 				})
 
-				localStorage.setItem('details', JSON.stringify(this.birdsData))
+				saveDataToLocalStorage('details', this.birdsData)
 
 				this.image = ''
 				this.title = ''
@@ -89,19 +93,10 @@ export default {
 
 				this.$router.go(-1)
 			}
-		},
-		getData() {
-			let dataDet = localStorage.getItem('details')
-
-			if (dataDet) {
-				this.birdsData = JSON.parse(dataDet)
-			} else {
-				localStorage.setItem('details', JSON.stringify(this.recipesCards))
-			}
 		}
 	},
 	mounted() {
-		this.getData()
+		this.birdsData = getDataFromLocalStorage('details')
 	}
 }
 </script>

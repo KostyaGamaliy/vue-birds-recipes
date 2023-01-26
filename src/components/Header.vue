@@ -69,7 +69,7 @@
 						<router-link to="/createBird"> Создать птицу</router-link>
 					</button>
 					<button
-						v-if="isAuth"
+						v-if="auth"
 						class="h-[42px] w-[42px] ml-2 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 text-base font-medium text-white shadow-sm hover:bg-indigo-700 cursor-pointer"
 					>
 						<router-link
@@ -83,9 +83,7 @@
 						v-else
 						class="ml-2 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base font-medium text-white shadow-sm hover:bg-indigo-700 cursor-pointer"
 					>
-						<router-link to="/authorize" @click="changeAuth"
-							>Войти
-						</router-link>
+						<router-link to="/authorize">Войти</router-link>
 					</button>
 				</div>
 			</div>
@@ -94,6 +92,9 @@
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/Auth'
+import { mapActions, mapState } from 'pinia'
+
 export default {
 	name: 'HeaderForm',
 	props: {},
@@ -102,13 +103,17 @@ export default {
 			thisUrl: this.$route.fullPath,
 			birdsUrl: '/',
 			isChacked: false,
-			isAuth: false,
 			whatSortIs: 'desc'
 		}
 	},
+	computed: {
+		...mapState(useAuthStore, ['auth'])
+	},
 	methods: {
+		...mapActions(useAuthStore, ['changeIsAuth']),
+
 		changeAuth() {
-			this.$store.state.isAuth = !this.$store.state.isAuth
+			this.changeIsAuth(false)
 		},
 
 		sortByStart() {
@@ -126,9 +131,6 @@ export default {
 		isChacked() {
 			this.$emit('emitIsCheck', this.isChacked)
 		}
-	},
-	created() {
-		this.isAuth = this.$store.state.isAuth
 	},
 	emits: ['emitIsCheck', 'emitSortByStart', 'emitSortByEnd']
 }

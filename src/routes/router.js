@@ -7,9 +7,9 @@ import ChangeRecipePage from '@/pages/ChangeRecipePage'
 import AddRecipePage from '@/pages/AddRecipePage'
 import ErrorPage from '@/pages/ErrorPage'
 import AuthorizationPage from '@/pages/Authorization'
-import store from '@/pinia/store'
 import AllRecipesPage from '@/pages/AllRecipesPage'
 import RecipeInformation from '@/pages/RecipeInformation'
+import { useAuthStore } from '@/stores/Auth'
 
 const routes = [
 	{
@@ -70,8 +70,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+	const authStore = useAuthStore()
 	if (
-		!store.state.isAuth &&
+		!authStore.isAuth &&
 		(to.name === 'CreateBird' ||
 			to.name === 'AddRecipePage' ||
 			to.name === 'ChangeRecipePage' ||

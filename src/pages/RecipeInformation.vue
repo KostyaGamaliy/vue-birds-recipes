@@ -5,13 +5,13 @@
 			<div>
 				<img
 					class="rounded-t-lg h-[25%] w-[40%] mx-auto mb-3"
-					:src="recipeData.image"
+					:src="recipeInfo.image"
 					alt=""
 				/>
 			</div>
-			<div class="text-3xl text-center mb-3">{{ recipeData.title }}</div>
+			<div class="text-3xl text-center mb-3">{{ recipeInfo.title }}</div>
 			<div class="text-3xl mb-3 indent-8">Instructions:</div>
-			<div v-for="(step, index) in steps" :key="index">
+			<div v-for="(step, index) in getSteps" :key="index">
 				<div class="indent-4" v-html="step.step"></div>
 			</div>
 		</div>
@@ -20,31 +20,28 @@
 
 <script>
 import HeaderPage from '@/components/Header'
-import axios from '@/utils/axios'
+import { mapActions, mapState } from 'pinia'
+import { useRecipesStore } from '@/stores/Recipes'
 
 export default {
 	name: 'RecipeInformation',
 	components: {
 		HeaderPage
 	},
-	data() {
-		return {
-			recipeData: [],
-			steps: []
+	computed: {
+		...mapState(useRecipesStore, ['recipeInfo']),
+
+		getSteps() {
+			return this.recipeInfo.analyzedInstructions
+				? this.recipeInfo.analyzedInstructions[0].steps
+				: []
 		}
 	},
 	methods: {
-		getRecipeData() {
-			axios
-				.get(`/recipes/${this.$route.params.recipeId}/information`)
-				.then((response) => {
-					this.recipeData = response.data
-					this.steps = this.recipeData.analyzedInstructions[0].steps
-				})
-		}
+		...mapActions(useRecipesStore, [`getRecipeInformation`])
 	},
 	mounted() {
-		this.getRecipeData()
+		this.getRecipeInformation(this.$route.params.recipeId)
 	}
 }
 </script>

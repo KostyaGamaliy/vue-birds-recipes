@@ -47,8 +47,10 @@
 </template>
 
 <script>
-import axios from '@/utils/axios.js'
 import HeaderForm from '@/components/Header.vue'
+import { getDataFromLocalStorage } from '@/utils/localStorageUtil'
+import { mapActions, mapState } from 'pinia'
+import { useRecipesStore } from '@/stores/Recipes'
 
 export default {
 	name: 'CreateBird',
@@ -63,65 +65,36 @@ export default {
 			birdData: []
 		}
 	},
+	computed: {
+		...mapState(useRecipesStore, ['birdRecipes'])
+	},
 	methods: {
-		addBird() {
-			let regURL =
-				/^(?:(?:https?|ftp|telnet):\/\/(?:[a-z0-9_-]{1,32}(?::[a-z0-9_-]{1,32})?@)?)?(?:(?:[a-z0-9-]{1,128}\.)+(?:com|net|org|mil|edu|arpa|ru|gov|biz|info|aero|inc|name|[a-z]{2})|(?!0)(?:(?!0[^.]|255)[0-9]{1,3}\.){3}(?!0|255)[0-9]{1,3})(?:\/[a-z0-9.,_@%&?+=~/-]*)?(?:#[^ '"&<>]*)?$/i
+		...mapActions(useRecipesStore, ['getRecipesForBird']),
 
+		addBird() {
 			if (this.birdName.length < 3) {
 				alert('Имя должно быть от 3 символов')
 			} else if (this.birdDescription.length < 10) {
 				alert('Описание должно быть от 10 символов')
 			} else {
-				this.getRecipes(
-					{ tags: this.birdName.replace(' ', ',').toLowerCase() },
-					regURL
+				this.getRecipesForBird(
+					{
+						tags: this.birdName.replace(' ', ',').toLowerCase()
+					},
+					this.birdData,
+					this.imageUrl,
+					this.birdName,
+					this.birdDescription
 				)
-				this.$router.push('/')
+
+				this.imageUrl = ''
+				this.birdName = ''
+				this.birdDescription = ''
 			}
-		},
-
-		getData() {
-			let dataDet = localStorage.getItem('details')
-
-			if (dataDet) {
-				this.birdData = JSON.parse(dataDet)
-			} else {
-				localStorage.setItem('details', JSON.stringify(this.birdData))
-			}
-		},
-
-		getRecipes(params, regURL) {
-			let newBirdData = {
-				imageUrl: regURL.test(this.imageUrl)
-					? this.imageUrl
-					: 'https://img.icons8.com/ios/512/full-body-crow.png',
-				birdName: this.birdName,
-				birdDescription: this.birdDescription,
-				recipesArr: []
-			}
-
-			axios
-				.get('/recipes/random', {
-					params: {
-						number: '20',
-						...params
-					}
-				})
-				.then((response) => {
-					newBirdData.recipesArr = response.data.recipes
-
-					this.birdData.push(newBirdData)
-					localStorage.setItem('details', JSON.stringify(this.birdData))
-
-					this.imageUrl = ''
-					this.birdName = ''
-					this.birdDescription = ''
-				})
 		}
 	},
 	mounted() {
-		this.getData()
+		this.birdData = getDataFromLocalStorage('details')
 	}
 }
 </script>
