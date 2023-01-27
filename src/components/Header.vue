@@ -33,6 +33,9 @@
 						v-model="whatSortIs"
 						class="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 cursor-pointer"
 					>
+						<option disabled value="" class="hidden text-gray-300">
+							Сделайте сортировку
+						</option>
 						<option value="desc" class="flex items-center justify-center">
 							Сортировка за алфавитом А-Я
 						</option>
@@ -103,7 +106,7 @@ export default {
 			thisUrl: this.$route.fullPath,
 			birdsUrl: '/',
 			isChacked: false,
-			whatSortIs: 'desc'
+			whatSortIs: ''
 		}
 	},
 	computed: {

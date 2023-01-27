@@ -11,5 +11,6 @@ export const useAuthStore = defineStore('auth', {
 		changeIsAuth(bool) {
 			this.isAuth = bool
 		}
-	}
+	},
+	persist: true
 })
